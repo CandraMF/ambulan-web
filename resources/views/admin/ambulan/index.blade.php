@@ -118,7 +118,7 @@
     </div>
 
     <x-modal name="confirm-delete" :show="$errors->userDeletion->isNotEmpty()" focusable>
-        <form method="post" action="{{ route('profile.destroy') }}" class="p-6">
+        <form method="post" action="{{ route('ambulan.destroy', 1) }}" class="p-6">
             @csrf
             @method('delete')
 
@@ -127,7 +127,7 @@
             </h2>
 
             <p class="mt-1 text-sm text-gray-600">
-                {{ __('Data yang telah di hapus tidak dapat tikembalikan lagi') }}
+                {{ __('Data yang telah di hapus tidak dapat dikembalikan lagi') }}
             </p>
 
             <div class="mt-6 flex justify-end">
