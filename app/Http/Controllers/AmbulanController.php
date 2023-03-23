@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AmbulanCreateRequest;
 use App\Models\Ambulan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 
 class AmbulanController extends Controller
 {
@@ -12,7 +15,9 @@ class AmbulanController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.ambulan.index', [
+            'datas' => DB::table('ambulans')->paginate(10)
+        ]);
     }
 
     /**
@@ -20,15 +25,20 @@ class AmbulanController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.ambulan.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(AmbulanCreateRequest $request)
     {
-        //
+        $data = $request->validated();
+        $data["status"] = 1;
+
+        $ambulan = Ambulan::create($data);
+
+        return Redirect::route('ambulan')->with('status', 'ambulan created');
     }
 
     /**

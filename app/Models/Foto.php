@@ -5,10 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Ambulan extends Model
+class Foto extends Model
 {
-
     use HasFactory;
-
-    protected $fillable = ["nama", "tahun", "jumlah", "merk", "deskripsi", "status"];
 }
