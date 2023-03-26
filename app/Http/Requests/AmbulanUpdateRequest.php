@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AmbulanCreateRequest extends FormRequest
+class AmbulanUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,11 +22,12 @@ class AmbulanCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nama' => ['string', 'max:255'],
-            'merk' => ['string', 'max:255'],
-            'tahun' => ['string', 'max:255'],
-            'jumlah' => ['integer', 'max:255'],
-            'deskripsi' => ['string', 'max:255'],
+            'nama' => ['required', 'string', 'max:255'],
+            'merk' => ['nullable', 'string', 'max:255'],
+            'tahun' => ['nullable', 'string', 'max:255'],
+            'jumlah' => ['nullable', 'integer', 'max:255'],
+            'deskripsi' => ['nullable', 'string', 'max:255'],
+            'foto.*' => ['mimes:jpg,jpeg,png', 'max:5000'],
         ];
     }
 }

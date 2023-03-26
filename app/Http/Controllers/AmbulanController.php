@@ -3,20 +3,39 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AmbulanCreateRequest;
+use App\Http\Requests\AmbulanUpdateRequest;
 use App\Models\Ambulan;
+use App\Models\FotoAmbulan;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\ValidationException;
 
 class AmbulanController extends Controller
 {
+    protected $allowedFileExtensions = [
+        'png',
+        'jpg',
+        'jpeg',
+    ];
+
+    protected function isAllowedFile( UploadedFile $file ) {
+        return in_array(
+            $file->getClientOriginalExtension(),
+            $this->allowedFileExtensions
+        );
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+        $data = Ambulan::with('foto')->orderBy('created_at', 'DESC')->paginate(10);
+
         return view('admin.ambulan.index', [
-            'datas' => DB::table('ambulans')->paginate(10)
+            'datas' => $data
         ]);
     }
 
@@ -36,9 +55,28 @@ class AmbulanController extends Controller
         $data = $request->validated();
         $data["status"] = 1;
 
+        $foto = $data['foto'];
+
         $ambulan = Ambulan::create($data);
 
-        return Redirect::route('ambulan')->with('status', 'ambulan created');
+        foreach ($foto as $key => $value) {
+            if ($this->isAllowedFile($value)) {
+                $filePath = Storage::disk('public')->put('images/ambulan', $value);
+
+                $foto = FotoAmbulan::create([
+                    "ambulan_id" => $ambulan->id,
+                    "foto" => $filePath,
+                    "status" => 0
+                ]);
+
+            } else {
+
+            }
+        }
+
+
+
+        return Redirect::route('ambulan')->with('success', 'Ambulan Berhasil Ditambahkan');
     }
 
     /**
@@ -52,24 +90,57 @@ class AmbulanController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Ambulan $ambulan)
+    public function edit($id)
     {
-        //
+        $data = Ambulan::with('foto')->find($id);
+
+        return view('admin.ambulan.update', ['data' => $data]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Ambulan $ambulan)
+    public function update(AmbulanUpdateRequest $request, $id)
     {
-        //
+        $data = $request->validated();
+
+        $data["status"] = 1;
+
+        $ambulan = Ambulan::find($id);
+        $ambulan->update($data);
+
+        if(isset($data['foto'])) {
+            $foto = $data['foto'];
+
+            foreach ($foto as $key => $value) {
+                if ($this->isAllowedFile($value)) {
+                    $filePath = Storage::disk('public')->put('images/ambulan', $value);
+
+                    $foto = FotoAmbulan::create([
+                        "ambulan_id" => $id,
+                        "foto" => $filePath,
+                        "status" => 0
+                    ]);
+
+                } else {
+
+                }
+            }
+
+            return Redirect::back()->with('success', 'Foto Berhasil Ditambah');
+        }
+
+        return Redirect::route('ambulan')->with('success', 'Ambulan Berhasil Diubah');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Ambulan $ambulan)
+    public function destroy($id)
     {
-        //
+        $data = Ambulan::find($id);
+        $data->delete();
+
+        return Redirect::route('ambulan')->with('success', 'Data Berhasil Dihapus');
     }
 }

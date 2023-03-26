@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\FotoAmbulan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class FotoAmbulanController extends Controller
 {
@@ -58,8 +59,11 @@ class FotoAmbulanController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(FotoAmbulan $fotoAmbulan)
+    public function destroy($id)
     {
-        //
+        $data = FotoAmbulan::find($id);
+        $data->delete();
+
+        return Redirect::back()->with('success', 'Data Berhasil Dihapus');
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AmbulanController;
+use App\Http\Controllers\FotoAmbulanController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -17,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('home');
+    return view('landing');
 });
 
 Route::get('/dashboard', function () {
@@ -31,6 +32,9 @@ Route::get('/ambulan/edit/{id}', [AmbulanController::class, 'edit'])->middleware
 Route::put('/ambulan/update/{id}', [AmbulanController::class, 'update'])->middleware(['auth', 'verified'])->name('ambulan.update');
 Route::delete('/ambulan/{id}', [AmbulanController::class, 'destroy'])->middleware(['auth', 'verified'])->name('ambulan.destroy');
 Route::get('/ambulan/{id}', [AmbulanController::class, 'show'])->middleware(['auth', 'verified'])->name('ambulan.show');
+
+Route::get('/foto-ambulan', [FotoAmbulanController::class, 'index'])->middleware(['auth', 'verified'])->name('foto');
+Route::delete('/foto-ambulan/{id}', [FotoAmbulanController::class, 'destroy'])->middleware(['auth', 'verified'])->name('foto.destroy');
 
 Route::get('/users', [UsersController::class, 'index'])->name('users');
 

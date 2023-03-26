@@ -7,6 +7,12 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-9">
+
+            @if(\Session::has('success'))
+                <div class="block w-full">
+                    <div class="font-regular relative mb-4 block w-full rounded-lg bg-blue-500 p-4 text-base leading-5 text-white opacity-100">{!! \Session::get('success') !!}</div>
+                </div>
+            @endif
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     {{-- <button class="mx-2 my-2 bg-white transition duration-150 ease-in-out rounded text-gray-800 border border-gray-300 px-6 py-2 text-xs hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2  focus:ring-gray-800">Button</button> --}}
@@ -85,9 +91,9 @@
                                     </td> --}}
                                     <td class="px-6 py-4">
                                         <div class="flex justify-end gap-4">
-                                            <a x-data="{ tooltip: 'Delete' }" href="#"
+                                            <a href="#"
                                                 x-data=""
-                                                x-on:click.prevent="$dispatch('open-modal', 'confirm-delete')">
+                                                @click="$dispatch('open-modal', 'confirm-delete'); changeAction({{ $data->id }})">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                     stroke-width="1.5" stroke="currentColor" class="h-6 w-6"
                                                     x-tooltip="tooltip">
@@ -95,7 +101,7 @@
                                                         d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
                                                 </svg>
                                             </a>
-                                            <a x-data="{ tooltip: 'Edit' }" href="{{ route('ambulan.edit', $data->id) }}">
+                                            <a href="{{ route('ambulan.edit', $data->id) }}">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                     stroke-width="1.5" stroke="currentColor" class="h-6 w-6"
                                                     x-tooltip="tooltip">
@@ -117,10 +123,10 @@
         </div>
     </div>
 
-    <x-modal name="confirm-delete" :show="$errors->userDeletion->isNotEmpty()" focusable>
-        <form method="post" action="{{ route('ambulan.destroy', 1) }}" class="p-6">
+    <x-modal name="confirm-delete" focusable>
+        <form id="form-delete" method="post" action="{{ route('ambulan.destroy', 1) }}" class="p-6">
             @csrf
-            @method('delete')
+            @method('DELETE')
 
             <h2 class="text-lg font-medium text-gray-900">
                 {{ __('Yakin ingin menghapus data?') }}
@@ -141,4 +147,19 @@
             </div>
         </form>
     </x-modal>
+
+    <script>
+        function changeAction(id) {
+            var form = document.getElementById('form-delete')
+
+            var action = form.action
+            var part = action.split("/").pop();
+            var url = action.slice(0, -part.length);
+
+            form.action = url + id
+
+            console.log(form.action)
+        }
+    </script>
+
 </x-app-layout>
