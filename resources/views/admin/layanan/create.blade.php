@@ -1,109 +1,38 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Ubah Data Ambulan') }}
+            {{ __('Tambah Data Layanan') }}
         </h2>
     </x-slot>
 
     <div class="py-12">
-        <form method="post" action="{{ route('ambulan.update', $data->id) }}" enctype="multipart/form-data">
+        <form method="post" action="{{ route('layanan.store') }}" enctype="multipart/form-data">
             @csrf
-            @method('put')
+            @method('post')
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-12 space-y-6">
-                @if(\Session::has('success'))
-                    <div class="grid w-full">
-                        <div
-                            x-data=""
-                            class="flex justify-between  font-regular relative mb-4 w-full rounded-lg bg-blue-500 p-4 text-base leading-5 text-white opacity-100">
-                            <div class="my-auto">
-                                {!! \Session::get('success') !!}
-                            </div>
-                            <x-primary-button @click="window.location.replace('/ambulan')" id="cancel" type="button">{{ __('Kembali') }}</x-primary-button>
-                        </div>
-                    </div>
-                @endif
                 <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                    <h3>Data Ambulan</h3>
+                    <h3>Data Layanan</h3>
                     <div class=" mt-6 gap-y-6 grid lg:grid-cols-2 grid-cols-1 gap-x-5">
-
                         <div class="col-span-1 ">
-                            <x-input-label for="nama" :value="__('Nama Ambulan')" />
+                            <x-input-label for="nama" :value="__('Nama Layanan')" />
                             <x-text-input id="nama" name="nama" type="text" class="mt-1 block w-full"
-                                autofocus autocomplete="nama" value="{!! old('nama', $data->nama) !!}" />
+                                autofocus autocomplete="nama" />
                             <x-input-error class="mt-2" :messages="$errors->get('nama')" />
                         </div>
                         <div class="col-span-1 ">
-                            <x-input-label for="merk" :value="__('Merk')" />
-                            <x-text-input id="merk" name="merk" type="text" class="mt-1 block w-full"
-                                autocomplete="merk" value="{!! old('merk', $data->merk) !!}" />
-                            <x-input-error class="mt-2" :messages="$errors->get('merk')" />
-                        </div>
-                        <div class="col-span-1 ">
-                            <x-input-label for="tahun" :value="__('Tahun')" />
-                            <x-text-input id="tahun" name="tahun" type="text" class="mt-1 block w-full"
-                                autocomplete="tahun" value="{!! old('tahun', $data->tahun) !!}" />
-                            <x-input-error class="mt-2" :messages="$errors->get('tahun')" />
-                        </div>
-                        <div class="col-span-1 ">
-                            <x-input-label for="jumlah" :value="__('Jumlah')" />
-                            <x-text-input id="jumlah" name="jumlah" type="text" class="mt-1 block w-full"
-                                autocomplete="jumlah" value="{!! old('jumlah', $data->jumlah) !!}"/>
-                            <x-input-error class="mt-2" :messages="$errors->get('jumlah')" />
-                        </div>
-                        <div class="col-span-1 ">
-                            <x-input-label for="deskripsi" :value="__('Deskripsi')"  />
+                            <x-input-label for="deskripsi" :value="__('Deskripsi')" />
                             <textarea id="deskripsi" name="deskripsi" type="text"
                                 class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
-                                autocomplete="deskripsi">{!! old('deskripsi', $data->deskripsi) !!}</textarea>
+                                autocomplete="deskripsi">
 
                             </textarea>
                             <x-input-error class="mt-2" :messages="$errors->get('deskripsi')" />
                         </div>
                     </div>
-                    <footer class="flex justify-end">
-                        <x-primary-button id="submit" type="submit">{{ __('Simpan') }}</x-primary-button>
-                    </footer>
 
                 </div>
-
                 <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg ">
-                    <h3>Foto</h3>
-
-                    <div class="grid md:grid-cols-5 sm:grid-cols-3 grid-cols-3 gap-5 mt-5">
-                        @foreach ($data->foto as $foto)
-                        <div class="col-span-1">
-                            <article tabindex="0"
-                                class="group hasImage w-full h-full rounded-md focus:outline-none focus:shadow-outline bg-gray-100 cursor-pointer relative text-transparent hover:text-white shadow-sm">
-                                <img
-                                    src="{{ asset('storage/'.$foto->foto) }}"
-                                    alt="upload preview" class="img-preview w-full h-full sticky object-cover rounded-md bg-fixed" />
-
-                                <section
-                                    class="flex flex-col rounded-md text-xs break-words w-full h-full z-20 absolute top-0 py-2 px-3">
-                                    <h1 class="flex-1"></h1>
-                                    <div class="flex" x-data="{ id: {{$foto->id}} }">
-                                        <button
-                                            type="button"
-                                            @click="$dispatch('open-modal', 'confirm-delete'); changeAction({{ $foto->id }});"
-                                            class="delete ml-auto focus:outline-none hover:bg-gray-300 p-1 rounded-md">
-                                            <svg class="pointer-events-none fill-current w-4 h-4 ml-auto"
-                                                xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                viewBox="0 0 24 24">
-                                                <path class="pointer-events-none"
-                                                    d="M3 6l3 18h12l3-18h-18zm19-4v2h-20v-2h5.711c.9 0 1.631-1.099 1.631-2h5.316c0 .901.73 2 1.631 2h5.711z" />
-                                            </svg>
-                                        </button>
-                                    </div>
-                                </section>
-                            </article>
-                        </div>
-                        @endforeach
-                    </div>
-
-                </div>
-
-                <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg ">
-                    <h3>Tambah Foto</h3>
+                    <h3>Upload Foto</h3>
                     <article aria-label="File Upload Modal"
                         class="relative h-full flex flex-col bg-white shadow-xl  mt-5 rounded-md" ondrop="dropHandler(event);"
                         ondragover="dragOverHandler(event);" ondragleave="dragLeaveHandler(event);"
@@ -153,10 +82,10 @@
                         </section>
 
                         <!-- sticky footer -->
-                        <footer class="flex justify-end px-8 pb-8 pt-4 gap-3" x-data="">
+                        <footer class="flex justify-end px-8 pb-8 pt-4 gap-3">
 
                             <x-primary-button id="submit" type="submit">{{ __('Simpan') }}</x-primary-button>
-                            <x-secondary-button id="cancel" type="reset" @click="window.location.replace('/ambulan')">{{ __('Batal') }}</x-secondary-button>
+                            <x-secondary-button id="cancel" type="reset">{{ __('Batal') }}</x-secondary-button>
 
                         </footer>
                     </article>
@@ -238,31 +167,6 @@
         </form>
     </div>
 
-    <x-modal name="confirm-delete" focusable>
-        <form id="form-delete" method="post" action="{{ route('foto.destroy', 1) }}" class="p-6">
-            @csrf
-            @method('DELETE')
-
-            <h2 class="text-lg font-medium text-gray-900">
-                {{ __('Yakin ingin menghapus data?') }}
-            </h2>
-
-            <p class="mt-1 text-sm text-gray-600">
-                {{ __('Data yang telah di hapus tidak dapat dikembalikan lagi') }}
-            </p>
-
-            <div class="mt-6 flex justify-end">
-                <x-secondary-button x-on:click="$dispatch('close')">
-                    {{ __('Batal') }}
-                </x-secondary-button>
-
-                <x-danger-button class="ml-3">
-                    {{ __('Hapus Data') }}
-                </x-danger-button>
-            </div>
-        </form>
-    </x-modal>
-
     <script>
         const fileTempl = document.getElementById("file-template"),
             imageTempl = document.getElementById("image-template"),
@@ -319,7 +223,11 @@
         // use to check if a file is being dragged
         const hasFiles = ({
                 dataTransfer: {
-                    types = []
+                    types = [
+                        'jpg',
+                        'jpeg',
+                        'png'
+                    ]
                 }
             }) =>
             types.indexOf("Files") > -1;
@@ -386,18 +294,6 @@
             empty.classList.remove("hidden");
             gallery.append(empty);
         };
-
-        function changeAction(id) {
-            var form = document.getElementById('form-delete')
-
-            var action = form.action
-            var part = action.split("/").pop();
-            var url = action.slice(0, -part.length);
-
-            form.action = url + id
-
-            console.log(form.action)
-        }
     </script>
 
     <style>

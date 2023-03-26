@@ -2,6 +2,9 @@
 
 use App\Http\Controllers\AmbulanController;
 use App\Http\Controllers\FotoAmbulanController;
+use App\Http\Controllers\FotoLayananController;
+use App\Http\Controllers\LandingPageController;
+use App\Http\Controllers\LayananController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -17,9 +20,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('landing');
-});
+Route::get('/', [LandingPageController::class, 'index'])->name('landingpage');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -36,8 +37,18 @@ Route::get('/ambulan/{id}', [AmbulanController::class, 'show'])->middleware(['au
 Route::get('/foto-ambulan', [FotoAmbulanController::class, 'index'])->middleware(['auth', 'verified'])->name('foto');
 Route::delete('/foto-ambulan/{id}', [FotoAmbulanController::class, 'destroy'])->middleware(['auth', 'verified'])->name('foto.destroy');
 
-Route::get('/users', [UsersController::class, 'index'])->name('users');
+Route::get('/layanan', [LayananController::class, 'index'])->middleware(['auth', 'verified'])->name('layanan');
+Route::get('/layanan/create', [LayananController::class, 'create'])->middleware(['auth', 'verified'])->name('layanan.create');
+Route::post('/layanan/store', [LayananController::class, 'store'])->middleware(['auth', 'verified'])->name('layanan.store');
+Route::get('/layanan/edit/{id}', [LayananController::class, 'edit'])->middleware(['auth', 'verified'])->name('layanan.edit');
+Route::put('/layanan/update/{id}', [LayananController::class, 'update'])->middleware(['auth', 'verified'])->name('layanan.update');
+Route::delete('/layanan/{id}', [LayananController::class, 'destroy'])->middleware(['auth', 'verified'])->name('layanan.destroy');
+Route::get('/layanan/{id}', [LayananController::class, 'show'])->middleware(['auth', 'verified'])->name('layanan.show');
 
+Route::get('/foto-layanan', [FotoLayananController::class, 'index'])->middleware(['auth', 'verified'])->name('fotoLayanan');
+Route::delete('/foto-layanan/{id}', [FotoLayananController::class, 'destroy'])->middleware(['auth', 'verified'])->name('fotoLayanan.destroy');
+
+Route::get('/users', [UsersController::class, 'index'])->name('users');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

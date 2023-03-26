@@ -1,12 +1,12 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Ubah Data Ambulan') }}
+            {{ __('Ubah Data Layanan') }}
         </h2>
     </x-slot>
 
     <div class="py-12">
-        <form method="post" action="{{ route('ambulan.update', $data->id) }}" enctype="multipart/form-data">
+        <form method="post" action="{{ route('layanan.update', $data->id) }}" enctype="multipart/form-data">
             @csrf
             @method('put')
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-12 space-y-6">
@@ -18,37 +18,19 @@
                             <div class="my-auto">
                                 {!! \Session::get('success') !!}
                             </div>
-                            <x-primary-button @click="window.location.replace('/ambulan')" id="cancel" type="button">{{ __('Kembali') }}</x-primary-button>
+                            <x-primary-button @click="window.location.replace('/layanan')" id="cancel" type="button">{{ __('Kembali') }}</x-primary-button>
                         </div>
                     </div>
                 @endif
                 <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                    <h3>Data Ambulan</h3>
+                    <h3>Data Layanan</h3>
                     <div class=" mt-6 gap-y-6 grid lg:grid-cols-2 grid-cols-1 gap-x-5">
 
                         <div class="col-span-1 ">
-                            <x-input-label for="nama" :value="__('Nama Ambulan')" />
+                            <x-input-label for="nama" :value="__('Nama Layanan')" />
                             <x-text-input id="nama" name="nama" type="text" class="mt-1 block w-full"
                                 autofocus autocomplete="nama" value="{!! old('nama', $data->nama) !!}" />
                             <x-input-error class="mt-2" :messages="$errors->get('nama')" />
-                        </div>
-                        <div class="col-span-1 ">
-                            <x-input-label for="merk" :value="__('Merk')" />
-                            <x-text-input id="merk" name="merk" type="text" class="mt-1 block w-full"
-                                autocomplete="merk" value="{!! old('merk', $data->merk) !!}" />
-                            <x-input-error class="mt-2" :messages="$errors->get('merk')" />
-                        </div>
-                        <div class="col-span-1 ">
-                            <x-input-label for="tahun" :value="__('Tahun')" />
-                            <x-text-input id="tahun" name="tahun" type="text" class="mt-1 block w-full"
-                                autocomplete="tahun" value="{!! old('tahun', $data->tahun) !!}" />
-                            <x-input-error class="mt-2" :messages="$errors->get('tahun')" />
-                        </div>
-                        <div class="col-span-1 ">
-                            <x-input-label for="jumlah" :value="__('Jumlah')" />
-                            <x-text-input id="jumlah" name="jumlah" type="text" class="mt-1 block w-full"
-                                autocomplete="jumlah" value="{!! old('jumlah', $data->jumlah) !!}"/>
-                            <x-input-error class="mt-2" :messages="$errors->get('jumlah')" />
                         </div>
                         <div class="col-span-1 ">
                             <x-input-label for="deskripsi" :value="__('Deskripsi')"  />
@@ -156,7 +138,7 @@
                         <footer class="flex justify-end px-8 pb-8 pt-4 gap-3" x-data="">
 
                             <x-primary-button id="submit" type="submit">{{ __('Simpan') }}</x-primary-button>
-                            <x-secondary-button id="cancel" type="reset" @click="window.location.replace('/ambulan')">{{ __('Batal') }}</x-secondary-button>
+                            <x-secondary-button id="cancel" type="reset" @click="window.location.replace('/layanan')">{{ __('Batal') }}</x-secondary-button>
 
                         </footer>
                     </article>
@@ -239,7 +221,7 @@
     </div>
 
     <x-modal name="confirm-delete" focusable>
-        <form id="form-delete" method="post" action="{{ route('foto.destroy', 1) }}" class="p-6">
+        <form id="form-delete" method="post" action="{{ route('fotoLayanan.destroy', 1) }}" class="p-6">
             @csrf
             @method('DELETE')
 

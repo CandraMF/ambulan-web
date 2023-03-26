@@ -2,18 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\AmbulanCreateRequest;
-use App\Http\Requests\AmbulanUpdateRequest;
-use App\Models\Ambulan;
-use App\Models\FotoAmbulan;
+use App\Http\Requests\LayananCreateRequest;
+use App\Http\Requests\LayananUpdateRequest;
+use App\Models\FotoLayanan;
+use App\Models\Layanan;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Validation\ValidationException;
 
-class AmbulanController extends Controller
+class LayananController extends Controller
 {
     protected $allowedFileExtensions = [
         'png',
@@ -27,14 +25,15 @@ class AmbulanController extends Controller
             $this->allowedFileExtensions
         );
     }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $data = Ambulan::with('foto')->orderBy('created_at', 'DESC')->paginate(10);
+        $data = Layanan::with('foto')->orderBy('created_at', 'DESC')->paginate(10);
 
-        return view('admin.ambulan.index', [
+        return view('admin.layanan.index', [
             'datas' => $data
         ]);
     }
@@ -44,27 +43,27 @@ class AmbulanController extends Controller
      */
     public function create()
     {
-        return view('admin.ambulan.create');
+        return view('admin.layanan.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(AmbulanCreateRequest $request)
+    public function store(LayananCreateRequest $request)
     {
         $data = $request->validated();
         $data["status"] = 1;
 
         $foto = $data['foto'];
 
-        $ambulan = Ambulan::create($data);
+        $layanan = Layanan::create($data);
 
         foreach ($foto as $key => $value) {
             if ($this->isAllowedFile($value)) {
-                $filePath = Storage::disk('public')->put('images/ambulan', $value);
+                $filePath = Storage::disk('public')->put('images/layanan', $value);
 
-                $foto = FotoAmbulan::create([
-                    "ambulan_id" => $ambulan->id,
+                $foto = FotoLayanan::create([
+                    "layanan_id" => $layanan->id,
                     "foto" => $filePath,
                     "status" => 1
                 ]);
@@ -75,14 +74,13 @@ class AmbulanController extends Controller
         }
 
 
-
-        return Redirect::route('ambulan')->with('success', 'Ambulan Berhasil Ditambahkan');
+        return Redirect::route('layanan')->with('success', 'Layanan Berhasil Ditambahkan');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Ambulan $ambulan)
+    public function show(Layanan $layanan)
     {
         //
     }
@@ -92,32 +90,32 @@ class AmbulanController extends Controller
      */
     public function edit($id)
     {
-        $data = Ambulan::with('foto')->find($id);
+        $data = Layanan::with('foto')->find($id);
 
-        return view('admin.ambulan.update', ['data' => $data]);
+        return view('admin.layanan.update', ['data' => $data]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(AmbulanUpdateRequest $request, $id)
+    public function update(LayananUpdateRequest $request, $id)
     {
         $data = $request->validated();
 
         $data["status"] = 1;
 
-        $ambulan = Ambulan::find($id);
-        $ambulan->update($data);
+        $layanan = Layanan::find($id);
+        $layanan->update($data);
 
         if(isset($data['foto'])) {
             $foto = $data['foto'];
 
             foreach ($foto as $key => $value) {
                 if ($this->isAllowedFile($value)) {
-                    $filePath = Storage::disk('public')->put('images/ambulan', $value);
+                    $filePath = Storage::disk('public')->put('images/layanan', $value);
 
-                    $foto = FotoAmbulan::create([
-                        "ambulan_id" => $id,
+                    $foto = FotoLayanan::create([
+                        "layanan_id" => $id,
                         "foto" => $filePath,
                         "status" => 1
                     ]);
@@ -130,7 +128,7 @@ class AmbulanController extends Controller
             return Redirect::back()->with('success', 'Foto Berhasil Ditambah');
         }
 
-        return Redirect::route('ambulan')->with('success', 'Ambulan Berhasil Diubah');
+        return Redirect::route('layanan')->with('success', 'Layanan Berhasil Diubah');
     }
 
     /**
@@ -138,9 +136,9 @@ class AmbulanController extends Controller
      */
     public function destroy($id)
     {
-        $data = Ambulan::find($id);
+        $data = Layanan::find($id);
         $data->delete();
 
-        return Redirect::route('ambulan')->with('success', 'Data Berhasil Dihapus');
+        return Redirect::route('layanan')->with('success', 'Data Berhasil Dihapus');
     }
 }
