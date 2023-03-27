@@ -7,6 +7,7 @@ use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\LayananController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SettingController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -49,6 +50,9 @@ Route::get('/foto-layanan', [FotoLayananController::class, 'index'])->middleware
 Route::delete('/foto-layanan/{id}', [FotoLayananController::class, 'destroy'])->middleware(['auth', 'verified'])->name('fotoLayanan.destroy');
 
 Route::get('/users', [UsersController::class, 'index'])->name('users');
+
+Route::get('/setting', [SettingController::class, 'index'])->name('setting');
+Route::post('/setting', [SettingController::class, 'store'])->name('setting.store');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

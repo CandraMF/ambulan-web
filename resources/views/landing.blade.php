@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Bandung Ambulance Transport</title>
+    <title>{{ $setting->nama }}</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
@@ -43,16 +43,16 @@
     <section id="topbar" class="d-flex align-items-center">
         <div class="container d-flex justify-content-center justify-content-md-between">
             <div class="contact-info d-flex align-items-center">
-                <i class="bi bi-envelope-fill"></i><a href="mailto:contact@example.com">info@example.com</a>
-                <i class="bi bi-phone-fill phone-icon"></i> +62 852-2255-1968 / +62 851-5941-9933
+                <i class="bi bi-envelope-fill"></i><a href="mailto:contact@example.com">{{ $setting->email }}</a>
+                <i class="bi bi-phone-fill phone-icon"></i> {{ $setting->no_hp }} / {{ $setting->no_hp_alt }}
             </div>
             <div class="social-links d-none d-md-block">
                 <!-- <a href="#" class="twitter"><i class="bi bi-twitter"></i></a> -->
-                <a href="https://www.youtube.com/@bandungambulancetransport4149"target='_blank' class="facebook"><i
+                <a href="{{ $setting->youtube }}"target='_blank' class="facebook"><i
                         class="bi-youtube"></i></a>
-                <a href="https://www.instagram.com/ambulance_bat/"target='_blank' class="instagram"><i
+                <a href="{{ $setting->instagram }}"target='_blank' class="instagram"><i
                         class="bi bi-instagram"></i></a>
-                <a href="https://www.tiktok.com/@batofficialakun"target='_blank' class="linkedin"><i
+                <a href="{{ $setting->tiktok }}"target='_blank' class="linkedin"><i
                         class="bi-tiktok"></i></i></a>
             </div>
         </div>
@@ -87,8 +87,8 @@
     <!-- ======= Hero Section ======= -->
     <section id="hero" class="d-flex align-items-center">
         <div class="container position-relative" data-aos="fade-up" data-aos-delay="500">
-            <h1>Bandung Ambulance Transport</h1>
-            <h2>Lakukan Yang Terbaik Bukan Ingin Menjadi Yang Terbaik</h2>
+            <h1>{{ $setting->nama }}</h1>
+            <h2>{{ $setting->jargon }}</h2>
         </div>
     </section><!-- End Hero -->
 
@@ -105,32 +105,8 @@
                     <div class="col-lg-6 pt-4 pt-lg-0 order-2 order-lg-1 content" data-aos="fade-right">
                         <h1>Tentang Kami</h1>
                         <p class="fst-italic">
-                        <p><span>BANDUNG AMBULANCE TRANSPORT</span> Adalah Ambulance Perorangan Yang didirikan pada
-                            Tanggal 15 Maret 2018 , Dimana BANDUNG AMBULANCE TRANSPORT Bertujuan Untuk
-                            <span>Melayani Dalam Bidang Pelayanan Jasa Ambulance Baik Pasien Maupun Jenazah.</span>
+                            <pre style="white-space: pre-wrap; font-family: 'Raleway', sans-serif; font-size: 16px; line-height: 1.5; margin-bottom: 1em; " class="preformatted">{{ $setting->deskripsi }}</pre>
                         </p>
-                        <p class="fst-italic">
-                        <p>Bandung Ambulance Transport memiliki visi yaitu <span>" HUMANITY PRIORTY / Mengutamakan
-                                Kemanusiaan " </span>Yang dimana Visi Ini Menjadi Tolak Ukur Di Dalam Melaksanakan Tugas
-                            Atau Pelayanan Terhadap Masyarakat Umum.</p>
-                        </p>
-                        <p class="fst-italic">
-                        <p>Dan Mempunyai Misi <span>" Lakukan Yang Terbaik Bukan Ingin Menjadi Yang Terbaik "
-                            </span>Dengan
-                            Maksud Tujuan Dalam Motto Ini Adalah <span>Membantu Sesama Manusia Itu
-                                Bukan Berdasarkan Suku , Agama , Dan Ekonomi.</span></p>
-                        </p>
-                        </p>
-                        <ul>
-                            <p>
-                            <p>Bandung Ambulance Transport Memiliki 5 Wilayah Layanan Sebagai Berikut :</p>
-                            </p>
-                            <li><i class="bi bi-dot"></i> Sukajadi</li>
-                            <li><i class="bi bi-dot"></i> Cimahi</li>
-                            <li><i class="bi bi-dot"></i> Moch Toha.</li>
-                            <li><i class="bi bi-dot"></i> Ujung Berung.</li>
-                            <li><i class="bi bi-dot"></i> Soekarno Hatta</li>
-                        </ul>
                         <!-- <p>
               Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
               velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
@@ -213,11 +189,11 @@
             <div class="container" data-aos="zoom-in">
 
                 <div class="text-center">
-                    <h3>Call To Action</h3>
+                    <h3>Siap Sedia 24/7</h3>
                     <p> Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
                         pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
                         mollit anim id est laborum.</p>
-                    <a class="cta-btn" href="#">Call To Action</a>
+                    <a class="cta-btn" href="#">Hubungi Kami</a>
                 </div>
 
             </div>
@@ -350,10 +326,7 @@
                         <div class="info-box mb-4">
                             <i class="bx bx-map"></i>
                             <h3>Alamat Kami</h3>
-                            <p>Jl. Puri Sari No 4 C
-                                Kel.Cipamokolan - Kec.Rancasari
-                                Bandung , 40292
-                                Jawa Barat</p>
+                            <p>{{ $setting->alamat }}</p>
                         </div>
                     </div>
 
@@ -361,7 +334,7 @@
                         <div class="info-box  mb-4">
                             <i class="bx bx-envelope"></i>
                             <h3>Email Kami</h3>
-                            <p>contact@example.com</p>
+                            <p>{{ $setting->email }}</p>
                         </div>
                     </div>
 
@@ -369,7 +342,7 @@
                         <div class="info-box  mb-4">
                             <i class="bx bx-phone-call"></i>
                             <h3>Nomor Layanan</h3>
-                            <p>+62 852-2255-1968 / +62 851-5941-9933</p>
+                            <p>{{ $setting->no_hp }} / {{ $setting->no_hp_alt }}</p>
                         </div>
                     </div>
 
@@ -426,30 +399,26 @@
 
                         <div class="col-lg-4 col-md-6">
                             <div class="footer-info">
-                                <h3>Bandung Ambulance Transport</h3>
-                                <p>
-                                    Jl. Puri Sari No 4 C <br>
-                                    Kel.Cipamokolan - Kec.Rancasari
-                                    Bandung , 40292
-                                    Jawa Barat<br><br>
-                                    <strong>Phone:</strong> +62 852-2255-1968 / +62 851-5941-9933<br>
-                                    <strong>Email:</strong> info@example.com<br>
+                                <h3>{{ $setting->nama }}</h3>
+                                <p>{{ $setting->alamat }} <br><br>
+                                    <strong>Phone:</strong> {{ $setting->no_hp }} / {{ $setting->no_hp_alt }}<br>
+                                    <strong>Email:</strong> {{ $setting->email }}<br>
                                 </p>
                                 <div class="social-links mt-3">
                                     <!-- <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a> -->
-                                    <a href="https://www.youtube.com/@bandungambulancetransport4149"target='_blank'
+                                    <a href="{{ $setting->youtube }}"target='_blank'
                                         class="facebook"><i class="bx bxl-youtube"></i></a>
-                                    <a href="https://www.instagram.com/ambulance_bat/"target='_blank'
+                                    <a href="{{ $setting->instagram }}"target='_blank'
                                         class="instagram"><i class="bx bxl-instagram"></i></a>
                                     <!-- <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a> -->
-                                    <a href="https://www.tiktok.com/@batofficialakun"target='_blank'
+                                    <a href="{{ $setting->tiktok }}"target='_blank'
                                         class="linkedin"><i class="bx bxl-tiktok"></i></a>
                                 </div>
                             </div>
                         </div>
 
                         <div class="col-lg-2 col-md-6 footer-links">
-                            <h4>Bandung Ambulance Transport</h4>
+                            <h4>{{ $setting->nama }}</h4>
                             <ul>
                                 <li><i class="bx bx-chevron-right"></i> <a href="#hero">Home</a></li>
                                 <li><i class="bx bx-chevron-right"></i> <a href="#about">Profil</a></li>

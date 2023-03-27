@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Setting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class SettingController extends Controller
 {
@@ -12,54 +13,24 @@ class SettingController extends Controller
      */
     public function index()
     {
-        //
+        $data = Setting::first();
+
+        return view('admin.setting.index', ['data' => $data]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
-    }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Setting $setting)
-    {
-        //
-    }
+        $post = $request->all();
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Setting $setting)
-    {
-        //
-    }
+        if(Setting::exists()) {
+            $data = Setting::first();
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Setting $setting)
-    {
-        //
-    }
+            $data->update($request->all());
+        } else {
+            $data = Setting::create($request->all());
+        }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Setting $setting)
-    {
-        //
+        return Redirect::route('setting')->with('success', 'Data Berhasil di Update');
     }
 }
