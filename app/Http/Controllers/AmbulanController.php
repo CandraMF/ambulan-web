@@ -92,7 +92,9 @@ class AmbulanController extends Controller
      */
     public function edit($id)
     {
-        $data = Ambulan::with('foto')->find($id);
+        $data = Ambulan::with(['foto' => function($q) {
+            $q->orderBy('status', 'desc');
+        }])->find($id);
 
         return view('admin.ambulan.update', ['data' => $data]);
     }

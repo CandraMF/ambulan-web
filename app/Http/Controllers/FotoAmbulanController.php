@@ -45,15 +45,25 @@ class FotoAmbulanController extends Controller
      */
     public function edit(FotoAmbulan $fotoAmbulan)
     {
-        //
+
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, FotoAmbulan $fotoAmbulan)
+    public function update(Request $request, $id)
     {
-        //
+        $foto = FotoAmbulan::find($id);
+
+        $clearPin = FotoAmbulan::whereAmbulanId($foto->ambulan->id);
+
+        $clearPin->update([
+            'status' => 1
+        ]);
+        $foto->update($request->all());
+
+        return Redirect::back()->with('success', 'Foto Berhasil Di Pin');
+
     }
 
     /**

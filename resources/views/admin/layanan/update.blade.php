@@ -61,7 +61,18 @@
                                     alt="upload preview" class="img-preview w-full h-full sticky object-cover rounded-md bg-fixed" />
 
                                 <section
+                                    x-data=""
                                     class="flex flex-col rounded-md text-xs break-words w-full h-full z-20 absolute top-0 py-2 px-3">
+                                    <button
+                                        type="button"
+                                        @click="pinFoto({{ $foto->id }});"
+                                        class="delete ml-auto focus:outline-none hover:bg-gray-300 p-1 rounded-md">
+                                        <svg class="pointer-events-none fill-current ml-auto"
+                                            xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                viewBox="0 0 24 24">
+                                                <path class="pointer-events-none"
+                                                    fill="{{ $foto->status == 1 ? "#fff" : "rgb(234 179 8)" }}" d="M10.975 18.847a2 2 0 0 1 2.049.002l3.34 1.997c.8.478 1.778-.229 1.568-1.123l-.877-3.72a2 2 0 0 1 .646-1.978l2.934-2.513c.705-.603.326-1.746-.6-1.819l-3.882-.325a2 2 0 0 1-1.671-1.205L12.968 4.63c-.358-.841-1.578-.841-1.936 0L9.52 8.154a2 2 0 0 1-1.67 1.203l-3.885.326c-.925.073-1.304 1.216-.6 1.819L6.3 14.015a2 2 0 0 1 .645 1.978l-.877 3.72c-.21.894.768 1.6 1.567 1.122l3.34-1.988Z"></path></svg>
+                                    </button>
                                     <h1 class="flex-1"></h1>
                                     <div class="flex" x-data="{ id: {{$foto->id}} }">
                                         <button
@@ -245,6 +256,13 @@
         </form>
     </x-modal>
 
+    <form id="form-update-image" method="post" action="{{ route('fotoLayanan.update', 1) }}" class="p-6">
+        @csrf
+        @method('PUT')
+
+        <input type="hidden" name="status" value="2">
+    </form>
+
     <script>
         const fileTempl = document.getElementById("file-template"),
             imageTempl = document.getElementById("image-template"),
@@ -378,7 +396,21 @@
 
             form.action = url + id
 
-            console.log(form.action)
+        }
+
+
+        function pinFoto(id) {
+
+            var form = document.getElementById('form-update-image')
+
+            var action = form.action
+            var part = action.split("/").pop();
+            var url = action.slice(0, -part.length);
+
+            form.action = url + id
+
+            form.submit();
+
         }
     </script>
 

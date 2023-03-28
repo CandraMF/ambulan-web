@@ -90,7 +90,9 @@ class LayananController extends Controller
      */
     public function edit($id)
     {
-        $data = Layanan::with('foto')->find($id);
+        $data = Layanan::with(['foto' => function($q) {
+            $q->orderBy('status', 'desc');
+        }])->find($id);
 
         return view('admin.layanan.update', ['data' => $data]);
     }

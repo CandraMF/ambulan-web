@@ -10,4 +10,9 @@ class FotoLayanan extends Model
     use HasFactory;
 
     protected $fillable = ["layanan_id", "foto", "status"];
+
+    public function layanan()
+    {
+        return $this->belongsTo(Layanan::class);
+    }
 }
