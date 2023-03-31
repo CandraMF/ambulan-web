@@ -96,7 +96,30 @@
                     </div>
 
                 </div>
-                <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg ">
+                <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+                    <h3>Call To Action</h3>
+                    <div class=" mt-6 gap-y-6 grid lg:grid-cols-2 grid-cols-1 gap-x-5">
+                        <div class="col-span-1 ">
+                            <x-input-label for="judul_cta" :value="__('Judul CTA')" />
+                            <x-text-input id="judul_cta" name="judul_cta" type="text" class="mt-1 block w-full"
+                                autofocus autocomplete="judul_cta" value="{!! old('judul_cta', $data->judul_cta) !!}"/>
+                            <x-input-error class="mt-2" :messages="$errors->get('judul_cta')" />
+                        </div>
+                        <div class="col-span-1 ">
+                            <x-input-label for="judul_cta" :value="__('Deskripsi CTA')" />
+                            <textarea id="deskripsi_cta" name="deskripsi_cta" type="text"
+                                class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
+                                autocomplete="deskripsi_cta">{!! old('deskripsi_cta', $data->deskripsi_cta) !!}</textarea>
+                            <x-input-error class="mt-2" :messages="$errors->get('deskripsi_cta')" />
+                        </div>
+                    </div>
+                    <footer class="flex justify-end px-8 pb-8 pt-4 gap-3" x-data="">
+                        <x-primary-button id="submit" type="submit">{{ __('Simpan') }}</x-primary-button>
+                        <x-secondary-button id="cancel" type="reset" @click="window.location.replace('/dashboard')">{{ __('Batal') }}</x-secondary-button>
+                    </footer>
+
+                </div>
+                {{-- <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg ">
                     <h3>Upload Foto</h3>
                     <article aria-label="File Upload Modal"
                         class="relative h-full flex flex-col bg-white shadow-xl  mt-5 rounded-md" ondrop="dropHandler(event);"
@@ -225,7 +248,7 @@
                             </article>
                         </li>
                     </template>
-                </div>
+                </div> --}}
             </div>
         </form>
     </div>

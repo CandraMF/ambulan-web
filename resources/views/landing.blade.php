@@ -28,6 +28,9 @@
 
     <!-- Template Main CSS File -->
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('vendor/own-carousel/own-carousel.min.css') }}">
+
+    <script src="{{ asset('vendor/own-carousel/own-carousel.min.js') }}"></script>
 
     <!-- =======================================================
   * Template Name: Day - v4.10.0
@@ -48,12 +51,10 @@
             </div>
             <div class="social-links d-none d-md-block">
                 <!-- <a href="#" class="twitter"><i class="bi bi-twitter"></i></a> -->
-                <a href="{{ $setting->youtube }}"target='_blank' class="facebook"><i
-                        class="bi-youtube"></i></a>
+                <a href="{{ $setting->youtube }}"target='_blank' class="facebook"><i class="bi-youtube"></i></a>
                 <a href="{{ $setting->instagram }}"target='_blank' class="instagram"><i
                         class="bi bi-instagram"></i></a>
-                <a href="{{ $setting->tiktok }}"target='_blank' class="linkedin"><i
-                        class="bi-tiktok"></i></i></a>
+                <a href="{{ $setting->tiktok }}"target='_blank' class="linkedin"><i class="bi-tiktok"></i></i></a>
             </div>
         </div>
     </section>
@@ -100,12 +101,13 @@
 
                 <div class="row">
                     <div class="col-lg-6 order-1 order-lg-2" data-aos="fade-left">
-                        <img src="{{ asset('img/BATIMG/111.jpg') }}" class="img-fluid" alt="">
+                        <img src="{{ asset('img/about.jpeg') }}" class="img-fluid" alt="">
                     </div>
                     <div class="col-lg-6 pt-4 pt-lg-0 order-2 order-lg-1 content" data-aos="fade-right">
                         <h1>Tentang Kami</h1>
                         <p class="fst-italic">
-                            <pre style="white-space: pre-wrap; font-family: 'Raleway', sans-serif; font-size: 16px; line-height: 1.5; margin-bottom: 1em; " class="preformatted">{{ $setting->deskripsi }}</pre>
+                            <pre style="white-space: pre-wrap; font-family: 'Raleway', sans-serif; font-size: 16px; line-height: 1.5; margin-bottom: 1em; "
+                                class="preformatted">{{ $setting->deskripsi }}</pre>
                         </p>
                         <!-- <p>
               Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
@@ -168,9 +170,9 @@
                 <div class="row">
                     @foreach ($layanan as $l)
                         <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="fade-up">
-                            <div class="icon-box">
+                            <div class="icon-box px-0">
                                 <div class="icon overflow-hidden">
-                                    <img src="{{ 'storage/' . $l->foto->where('status', 1)->first()->foto }}"
+                                    <img src="{{ 'storage/' . ($l->foto->where('status', 2)->first()->foto ?? $l->foto->first()->foto) }}"
                                         class="">
                                 </div>
                                 <h4>{{ $l->nama }}</h4>
@@ -187,14 +189,49 @@
         <!-- ======= Cta Section ======= -->
         <section id="cta" class="cta">
             <div class="container" data-aos="zoom-in">
-
                 <div class="text-center">
-                    <h3>Siap Sedia 24/7</h3>
-                    <p> Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-                        mollit anim id est laborum.</p>
-                    <a class="cta-btn" href="#">Hubungi Kami</a>
+                    <h3>{{ $setting->judul_cta }}</h3>
+                    <pre style="white-space: pre-wrap; font-family: 'Raleway', sans-serif; font-size: 16px; line-height: 1.5; margin-bottom: 1em; "
+                        class="preformatted text-white">{{ $setting->deskripsi_cta }}</pre>
+                    <a class="cta-btn" href="https://api.whatsapp.com/send?phone=6285222551968" target="blank">Hubungi Kami</a>
                 </div>
+            </div>
+        </section>
+
+        <section id="dokumentasi" class="dokumentasi">
+            <div class="container">
+
+                <div class="section-title">
+                    <span>Ambulan</span>
+                    <h2>Ambulan</h2>
+                </div>
+
+                <div class="own-carousel__container">
+                    <div class="own-carousel__outer">
+                        <div class="own-carousel">
+                            @foreach ($ambulan as $a)
+                                <div class="own-carousel__item">
+                                    <div class="card h-100 border-0">
+                                        <img src="{{ 'storage/' . ($a->foto->where('status', 2)->first()->foto ?? $a->foto->first()->foto) }}"
+                                            class="card-img-top" alt="...">
+                                        <div class="card-body px-2 pb-3">
+                                            <h5 class="card-title">{{ $a->nama }}</h5>
+                                            <h6 class="card-subtitle mb-2 text-muted">{{ $a->deskripsi }}</h6>
+                                        </div>
+                                        <div class="card-footer bg-transparent border-0 px-2 py-0">
+                                            <a href="https://api.whatsapp.com/send?phone=6285222551968" target="blank" class="btn rounded-0 text-white" style="background: #cc1616;">Hubungi Kami</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+
+                {{-- <div class="row row-cols-1 row-cols-md-3 g-4">
+
+                </div> --}}
+
 
             </div>
         </section>
@@ -265,49 +302,7 @@
         </section>
         <!-- End Testimoni Section -->
 
-        <section id="dokumentasi" class="dokumentasi">
-            <div class="">
 
-                <div class="section-title">
-                    <span>Ambulan</span>
-                    <h2>Ambulan</h2>
-                    <!-- <p>Sit sint consectetur velit quisquam cupiditate impedit suscipit alias</p> -->
-                </div>
-
-                <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-                    <div class="carousel-inner">
-                        @foreach ($ambulan as $a)
-                            <div class="carousel-item active w-100 h-50" style="position: relative;">
-                                <div class="d-flex justify-content-center text-center m-3" style="position: absolute; right: 0; left: 0; bottom: 0">
-                                    <div class="bg-white px-5 py-4">
-                                        <h4 class="m-0 p-0">{{ $a->nama }}</h4>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    @foreach ($a->foto->take(3) as $foto)
-                                        <div class="col-4 p-0">
-                                            <img src="{{ asset('storage/'.$foto->foto) }}" class="d-block w-full" alt="...">
-                                        </div>
-                                    @endforeach
-                                </div>
-                            </div>
-                        @endforeach
-
-                    </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
-                        data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
-                        data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
-                    </button>
-                </div>
-
-            </div>
-        </section>
 
         <!-- ======= Contact Section ======= -->
 
@@ -406,13 +401,13 @@
                                 </p>
                                 <div class="social-links mt-3">
                                     <!-- <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a> -->
-                                    <a href="{{ $setting->youtube }}"target='_blank'
-                                        class="facebook"><i class="bx bxl-youtube"></i></a>
-                                    <a href="{{ $setting->instagram }}"target='_blank'
-                                        class="instagram"><i class="bx bxl-instagram"></i></a>
+                                    <a href="{{ $setting->youtube }}"target='_blank' class="facebook"><i
+                                            class="bx bxl-youtube"></i></a>
+                                    <a href="{{ $setting->instagram }}"target='_blank' class="instagram"><i
+                                            class="bx bxl-instagram"></i></a>
                                     <!-- <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a> -->
-                                    <a href="{{ $setting->tiktok }}"target='_blank'
-                                        class="linkedin"><i class="bx bxl-tiktok"></i></a>
+                                    <a href="{{ $setting->tiktok }}"target='_blank' class="linkedin"><i
+                                            class="bx bxl-tiktok"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -441,7 +436,7 @@
 
                         <div class="col-lg-4 col-md-6 footer-newsletter">
                             <h4>Artikel Kami</h4>
-                            <p>Tamen quem nulla quae legam multos aute sint culpa legam noster magna</p>
+                            <p>{{ $setting->deskripsi_cta }}</p>
                             <form action="" method="post">
                                 <input type="email" name="email"><input type="submit" value="Subscribe">
                             </form>
@@ -457,17 +452,12 @@
                     &copy; Copyright <strong><span>BernasSpot</span></strong>. All Rights Reserved
                 </div>
                 <div class="credits">
-                    <!-- All the links in the footer should remain intact.
-        <!-- You can delete the links only if you purchased the pro version. -->
-                    <!-- Licensing information: https://bootstrapmade.com/license/ -->
-                    <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/day-multipurpose-html-template-for-free/ -->
-                    <!-- Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-      </div>
-    </div> -->
+
         </footer><!-- End Footer -->
 
-        <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
-                class="bi bi-arrow-up-short"></i></a>
+        <a href="https://api.whatsapp.com/send?phone=6285222551968" target="blank" style="background: #25D366 !important" class="p-4 back-to-top d-flex align-items-center justify-content-center">
+            <i  class="bi bi-whatsapp"></i>
+        </a>
         <div id="preloader"></div>
 
         <!-- Vendor JS Files -->
@@ -480,6 +470,24 @@
 
         <!-- Template Main JS File -->
         <script src="{{ asset('js/main.js') }}"></script>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                document.querySelector(".own-carousel__container").ownCarousel({
+                    itemPerRow:4,
+                    itemWidth:24,
+                    responsive: {
+                        1000: [4, 24],
+                        800: [3, 33],
+                        600: [2, 49],
+                        400: [1, 100]
+                    },
+                    autoplay: 3000,
+                });
+                responsive();
+            });
+
+        </script>
 
 </body>
 
